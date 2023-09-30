@@ -62,23 +62,54 @@ public class MyArray {
             System.out.println("Enter the elements up to " + remaining);
 
             for(int i = 0; i < size; i++) {
-                System.out.print("Enter Element (enter \"Stop\" to stop adding): ");
+                System.out.print("Enter Element (enter \"-1\" to stop adding): ");
                 int input = scan.nextInt();
                 
                 if (input == -1) {
-                    break;
-                } else if (count > input) {
-                    System.out.println("Cannot add more element");
                     break;
                 }
 
                 arr[count] = input;
                 count++;
+                
+                if(count == arr.length) {
+                    while (true) {
+                        System.out.println("Do you want to resize the array?");
+                        System.out.println("[1] Yes\n[2] No");
+                        System.out.print("Option: ");
+
+                        String resizeOption = scan.next();
+                        
+                        if(resizeOption.equalsIgnoreCase("1")) {
+                            resize();
+                            break;
+                        } else if (resizeOption.equalsIgnoreCase("2")) {
+                            break;
+                        } else {
+                            System.out.println("Invalid choice.");
+                        }
+                    }
+                } 
             }
             System.out.println("Elements added successfully."); 
         } else {
             System.out.println("Array is full.");
         } 
+    }
+
+    static void resize() {
+        System.out.print("Enter new size for the array: ");
+        int newSize = scan.nextInt();
+        int[] newArr = new int[newSize];
+
+        for (int i = 0; i < count; i++) {
+            newArr[i] = arr[i];
+        }
+
+        arr = newArr;
+        size = newSize;
+        System.out.println("Array has been resized successfully to size " + newSize);
+        return;
     }
 
     static void view() {
