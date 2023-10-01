@@ -61,19 +61,39 @@ public class MyArray {
             int remaining = arr.length - count;
             System.out.println("Enter the elements up to " + remaining);
 
-            for(int i = 0; i < size; i++) {
-                System.out.print("Enter Element (enter \"-1\" to stop adding): ");
-                int input = scan.nextInt();
-                
-                if (input == -1) {
-                    break;
+            for(int i = 0; i <= size; i++) {
+
+                // this will check if the user entered the same size in the resize().
+                if (size == count) {
+                    System.out.println("=========================================================");
+                    System.out.println("You have entered the same array size. Please try again.");
+                    System.out.println("=========================================================");
+                    return;
                 }
 
+                System.out.print("Enter Element: ");
+                int input = scan.nextInt();
+                
                 arr[count] = input;
                 count++;
                 
+                //asks the user to the add another value after entering the element first.
+                System.out.println("\nDo you want to add another value?");
+                System.out.println("[1] Yes\n[2] No");
+                System.out.print("Option: ");
+
+                int option = scan.nextInt();
+
+                if (option != 1) {
+                    return;
+                } 
+                
                 if(count == arr.length) {
                     while (true) {
+                        System.out.println("====================");
+                        System.out.println("The array is full.");
+                        System.out.println("====================");
+                        System.out.println("Current size is " + count);
                         System.out.println("Do you want to resize the array?");
                         System.out.println("[1] Yes\n[2] No");
                         System.out.print("Option: ");
@@ -84,12 +104,13 @@ public class MyArray {
                             resize();
                             break;
                         } else if (resizeOption.equalsIgnoreCase("2")) {
-                            break;
+                            return;
                         } else {
                             System.out.println("Invalid choice.");
                         }
+                        return;
                     }
-                } 
+                }
             }
             System.out.println("Elements added successfully."); 
         } else {
@@ -108,7 +129,9 @@ public class MyArray {
 
         arr = newArr;
         size = newSize;
+        System.out.println("=============================================");
         System.out.println("Array has been resized successfully to size " + newSize);
+        System.out.println("=============================================");
         return;
     }
 
