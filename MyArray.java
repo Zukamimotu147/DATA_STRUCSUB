@@ -93,7 +93,7 @@ public class MyArray {
                         System.out.println("====================");
                         System.out.println("The array is full.");
                         System.out.println("====================");
-                        System.out.println("Current size is " + count);
+                        System.out.println("Current size is " + size);
                         System.out.println("Do you want to resize the array?");
                         System.out.println("[1] Yes\n[2] No");
                         System.out.print("Option: ");
@@ -114,7 +114,28 @@ public class MyArray {
             }
             System.out.println("Elements added successfully."); 
         } else {
+            System.out.println("===============");
             System.out.println("Array is full.");
+            System.out.println("===============");
+            while (true) {
+                System.out.println("Current size is " + size);
+                System.out.println("Do you want to resize the array?");
+                System.out.println("[1] Yes\n[2] No");
+                System.out.print("Option: ");
+
+                String resizeOption = scan.next();
+                            
+                if(resizeOption.equalsIgnoreCase("1")) {
+                    resize();
+                    break;
+                } else if (resizeOption.equalsIgnoreCase("2")) {
+                    return;
+                } else {
+                    System.out.println("Invalid choice.");
+                }
+                return;
+            }
+            
         } 
     }
 
@@ -139,7 +160,9 @@ public class MyArray {
         if(count > 0) {
             System.out.println("Array elements: " + Arrays.toString(Arrays.copyOf(arr, count)));
         } else {
+            System.out.println("===============");
             System.out.println("Array is empty.");
+            System.out.println("===============");
         }
     }
 
@@ -148,16 +171,20 @@ public class MyArray {
             System.out.print("Enter the index to remove element (0 to " + (count - 1) + "): ");
             int indexRemove = scan.nextInt();
             if(indexRemove >= 0 && indexRemove < count) {
-                for (int i = indexRemove; i < count - 1; i++) {
-                    arr[i] = arr[i + 1];
+                for (int i = indexRemove; i < count; i++) {
+                    if (indexRemove == i) {
+                        arr[indexRemove] = 0;
+                    }
                 }
-                count--;
+                size--;
                 System.out.println("Element removed successfully.");
             } else {
                 System.out.println("Invalid index.");
             }
         } else {
+            System.out.println("===============");
             System.out.println("Array is empty.");
+            System.out.println("===============");
         }
     }
 
@@ -185,7 +212,9 @@ public class MyArray {
             }
 
         } else {
+            System.out.println("===============");
             System.out.println("Array is empty.");
+            System.out.println("===============");
         }
     }
 
@@ -223,7 +252,9 @@ public class MyArray {
                     break;   
             }
         } else {
+            System.out.println("===============");
             System.out.println("Array is empty.");
+            System.out.println("===============");
         }
     }
 
@@ -240,7 +271,9 @@ public class MyArray {
                 System.out.println("Invalid Index.");
             }
         } else {
+            System.out.println("===============");
             System.out.println("Array is empty.");
+            System.out.println("===============");
         }
     }
 
