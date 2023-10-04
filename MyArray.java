@@ -151,16 +151,17 @@ public class MyArray {
 
         arr = newArr;
         size = newSize;
-
-        if (size == count) {
+        
+        if (size != count) {
+            System.out.println("=============================================");
+            System.out.println("Array has been resized successfully to size " + newSize);
+            System.out.println("=============================================");
+        } else {
             System.out.println("=========================================================");
             System.out.println("You have entered the same array size. Please try again.");
             System.out.println("=========================================================");
-            return;
+        
         }
-        System.out.println("=============================================");
-        System.out.println("Array has been resized successfully to size " + newSize);
-        System.out.println("=============================================");
         return;
     }
 
