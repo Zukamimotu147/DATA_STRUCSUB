@@ -47,8 +47,11 @@ public class MyArray {
                 case 7:
                     count();
                     break;
-                default:
+                case 8:
                     System.out.println("Good Bye!");
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
                     break;
             }
         } while (option != 8);
@@ -65,9 +68,6 @@ public class MyArray {
 
                 // this will check if the user entered the same size in the resize().
                 if (size == count) {
-                    System.out.println("=========================================================");
-                    System.out.println("You have entered the same array size. Please try again.");
-                    System.out.println("=========================================================");
                     return;
                 }
 
@@ -117,8 +117,9 @@ public class MyArray {
             System.out.println("===============");
             System.out.println("Array is full.");
             System.out.println("===============");
+
             while (true) {
-                System.out.println("Current size is " + size);
+                System.out.println("\nCurrent size is " + size);
                 System.out.println("Do you want to resize the array?");
                 System.out.println("[1] Yes\n[2] No");
                 System.out.print("Option: ");
@@ -133,7 +134,7 @@ public class MyArray {
                 } else {
                     System.out.println("Invalid choice.");
                 }
-                return;
+                
             }
             
         } 
@@ -150,6 +151,13 @@ public class MyArray {
 
         arr = newArr;
         size = newSize;
+
+        if (size == count) {
+            System.out.println("=========================================================");
+            System.out.println("You have entered the same array size. Please try again.");
+            System.out.println("=========================================================");
+            return;
+        }
         System.out.println("=============================================");
         System.out.println("Array has been resized successfully to size " + newSize);
         System.out.println("=============================================");
@@ -193,21 +201,23 @@ public class MyArray {
             System.out.print("Enter an element to search: ");
             int elementSearch = scan.nextInt();
 
-            int dups = 0;
+            int temp = 0;
             for (int i = 0; i < count; i++) {
                 if(arr[i] == elementSearch) {
-                    dups++;
+                    temp++;
                 }
             }
 
-            if (dups == 0) {
+            if (temp == 0) {
+                System.out.println("==================");
                 System.out.println("Invalid element.");
+                System.out.println("==================");
                 return;
             }
 
             for (int i = 0; i < count; i++) {
                 if(arr[i] == elementSearch) {
-                    System.out.println("The element is located at " + i);
+                    System.out.println("The element is located at index " + i);
                 }
             }
 
@@ -281,5 +291,4 @@ public class MyArray {
         System.out.println("The count is: " + count);
         return count;
     }
-
 }
