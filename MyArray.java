@@ -9,23 +9,39 @@ public class MyArray {
     static int size;
     static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
-        
-        System.out.println("=========ARRAY MENU=========");
-        System.out.print("Create Array size: ");
-        
-        size = scan.nextInt();
-        arr = new int[size]; // create size of array
-        
-        System.out.println("The size of array is: " + arr.length);
+    boolean isValid = true;
+    do {
+    
+      try {
+    
+      System.out.println("=========ARRAY MENU=========");
+      System.out.print("Create Array size: ");
+   
+      size = scan.nextInt();
+      isValid = false;
+      arr = new int[size]; // create size of array
+   
+      System.out.println("The size of array is: " + arr.length);
+    
+      } catch (Exception e) {
+         System.out.println("============================================");
+         System.out.println("Invalid input. Please enter a valid option.");
+         System.out.println("============================================");
+         scan.next();
+      }
+    } while (isValid);
+    
+    
+    
 
-        int option;
-        do {
-
+    int option = 0;
+    do {
+        try {
             System.out.println("(Menu)\n [1] Add Element\n [2] View Array\n [3] Remove Element \n [4] Search Element\n [5] Sort Array\n [6] Edit Element\n [7] Count Element\n [8] Exit");
-            System.out.print("Option: " );
+            System.out.print("Option: ");
             option = scan.nextInt();
 
-            switch(option) {
+            switch (option) {
                 case 1:
                     add();
                     break;
@@ -54,8 +70,20 @@ public class MyArray {
                     System.out.println("Invalid choice.");
                     break;
             }
-        } while (option != 8);
-    }
+        } catch (Exception e) {
+            System.out.println("============================================");
+            System.out.println("Invalid input. Please enter a valid option.");
+            System.out.println("============================================");
+            scan.next();
+            continue;
+            
+        }
+    } while (option != 8);
+
+    scan.close();
+}        
+        
+        
 
 
 
