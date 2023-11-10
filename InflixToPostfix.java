@@ -2,117 +2,115 @@ package DATASTRUCsubject;
 
 import java.util.*;
 
-public class InflixToPostfix {
+public class InflixToPostfix { 
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        ConvertPostfix convertPostfix = new ConvertPostfix();
-        System.out.print("Enter infix: ");
-        String expression = scan.nextLine();
-
-        String postfix = convertPostfix.toPostfix(expression);
-        System.out.println("Postfix: " + postfix);
-
-        double result = convertPostfix.evaluatePostfix(expression);
+        System.out.print("Enter infix expression: ");
+        String infixExpression = scanner.nextLine();
+        try {
+        String postfixExpression = convertToPostfix(infixExpression);
+        System.out.println("Postfix expression: " + postfixExpression);
+        
+       
+        String result = evaluatePostfix(postfixExpression);
         System.out.println("Result: " + result);
-
-        scan.close();
+        } catch (Exception e) {
+            System.out.println("The expression cannot be evaluated");
+        }
+        
+        scanner.close();
     }
-}
-
-class ConvertPostfix {
-
-    public String toPostfix(String exp) {
+    
+    private static String convertToPostfix(String infix) {
         Stack<Character> operators = new Stack<>();
         StringBuilder postfix = new StringBuilder();
+        StringBuilder currentNumber = new StringBuilder();
 
-        for (int i = 0; i < exp.length(); i++) {
-            char ch = exp.charAt(i);
-
+        for (char ch : infix.toCharArray()) {
             if (ch == ' ') {
                 continue;
-            } else if (Character.isDigit(ch)) {
-                postfix.append(ch);
-            } else if (ch == '(') {
-                operators.push(ch);
-            } else if (ch == ')') {
-                while (!operators.isEmpty() && operators.peek() != '(') {
-                    postfix.append(operators.pop());
+            } else if (Character.isLetterOrDigit(ch)) {
+                currentNumber.append(ch);
+            } else {
+                if (currentNumber.length() > 0) {
+                    postfix.append(currentNumber).append(' ');
+                    currentNumber.setLength(0); 
                 }
-                if (!operators.isEmpty() && operators.peek() == '(') {
-                    operators.pop();
+
+                if (ch == '(') {
+                    operators.push(ch);
+                } else if (ch == ')') {
+                    while (!operators.isEmpty() && operators.peek() != '(') {
+                        postfix.append(operators.pop()).append(' ');
+                    }
+                    if (!operators.isEmpty() && operators.peek() == '(') {
+                        operators.pop();
+                    }
+                } else if (isOperator(ch)) {
+                    while (!operators.isEmpty() && precedence(ch) <= precedence(operators.peek())) {
+                        postfix.append(operators.pop()).append(' ');
+                    }
+                    operators.push(ch);
                 }
-            } else if (isOperator(ch)) {
-                while (!operators.isEmpty() && precedence(ch) <= precedence(operators.peek())) {
-                    postfix.append(operators.pop());
-                }
-                operators.push(ch);
             }
+        }
+
+        if (currentNumber.length() > 0) {
+            postfix.append(currentNumber).append(' ');
         }
 
         while (!operators.isEmpty()) {
-            if (operators.peek() == '(') {
-                operators.pop();
-            } else {
-                postfix.append(operators.pop());
-            }
+            postfix.append(operators.pop()).append(' ');
         }
 
-        return postfix.toString();
+        return postfix.toString().trim();
     }
 
-    public double evaluatePostfix(String expression) {
-        Stack<Double> values = new Stack<>();
-        Stack<Character> operators = new Stack<>();
+    private static String evaluatePostfix(String postfix) {
+        Stack<String> values = new Stack<>();
+        String[] exp = postfix.split(" ");
 
-        for (int i = 0; i < expression.length(); i++) {
-            char ch = expression.charAt(i);
-
-            if (ch == ' ') {
-                continue;
-            } else if (Character.isDigit(ch)) {
-                double num = ch - '0';
-                while (i + 1 < expression.length() && Character.isDigit(expression.charAt(i + 1))) {
-                    num = num * 10 + (expression.charAt(i + 1) - '0');
-                    i++;
-                }
-                values.push(num);
-            } else if (ch == '(') {
-                operators.push(ch);
-            } else if (ch == ')') {
-                while (!operators.isEmpty() && operators.peek() != '(') {
-                    char operator = operators.pop();
-                    double operand2 = values.pop();
-                    double operand1 = values.pop();
-                    values.push(performOperator(operand1, operand2, operator));
-                }
-                operators.pop(); // Pop the '('
-            } else if (isOperator(ch)) {
-                while (!operators.isEmpty() && precedence(ch) <= precedence(operators.peek())) {
-                    char operator = operators.pop();
-                    double operand2 = values.pop();
-                    double operand1 = values.pop();
-                    values.push(performOperator(operand1, operand2, operator));
-                }
-                operators.push(ch);
-            }  
-        }
-
-        while (!operators.isEmpty()) {
-            char operator = operators.pop();
-            double operand2 = values.pop();
-            double operand1 = values.pop();
-            values.push(performOperator(operand1, operand2, operator));
+        for (String token : exp) {
+            if (isNumeric(token)) {
+                values.push(token);
+            } else {
+                values.push(token);
+                System.out.println(values);
+                String operator = values.pop();
+                String num2 = values.pop();
+                String num1 = values.pop();
+                String result = performOperator(num1, num2, operator);
+                values.push(result);
+            }
         }
 
         return values.pop();
     }
 
-    private boolean isOperator(char ch) {
-        return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^';
+    public static boolean isNumeric(String strNum) 
+    {
+        if (strNum == null) 
+        {
+            return false;
+        }
+        try 
+        {
+            double d = Double.parseDouble(strNum);
+        } 
+            catch (NumberFormatException nfe) 
+        {
+            return false;
+        }
+        return true;
     }
 
-    private int precedence(char operator) {
+    private static boolean isOperator(char ch) {
+        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+    }
+
+    private static int precedence(char operator) {
         switch (operator) {
             case '+':
             case '-':
@@ -120,30 +118,28 @@ class ConvertPostfix {
             case '*':
             case '/':
                 return 2;
-            case '^':
-                return 3;
             default:
                 return 0;
         }
     }
 
-    private double performOperator(double operand1, double operand2, char operator) {
+    private static String performOperator(String operand1, String operand2, String operator) {
+
+        double num1 = Double.parseDouble(operand1);
+        double num2 = Double.parseDouble(operand2);
+
         switch (operator) {
-            case '+':
-                return operand1 + operand2;
-            case '-':
-                return operand1 - operand2;
-            case '*':
-                return operand1 * operand2;
-            case '/':
-                if (operand2 == 0) {
-                    throw new ArithmeticException("Division by zero");
-                }
-                return operand1 / operand2;
-            case '^':
-                return Math.pow(operand1, operand2);
+            case "+":
+                return Double.toString(num1 + num2);
+            case "-":
+                return Double.toString(num1 + num2);
+            case "*":
+                return Double.toString(num1 * num2);
+            case "/":
+                return Double.toString(num1 / num2);
             default:
                 throw new IllegalArgumentException("Invalid operator: " + operator);
         }
     }
 }
+
