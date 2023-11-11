@@ -73,6 +73,10 @@ public class InflixToPostfix {
         String[] exp = postfix.split(" ");
 
         for (String token : exp) {
+
+            if (!isNumeric(token)) {
+                break;
+            }
             if (isNumeric(token)) {
                 values.push(token);
             } else {
@@ -89,18 +93,13 @@ public class InflixToPostfix {
         return values.pop();
     }
 
-    public static boolean isNumeric(String strNum) 
-    {
-        if (strNum == null) 
-        {
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
             return false;
         }
-        try 
-        {
+        try {
             double d = Double.parseDouble(strNum);
-        } 
-            catch (NumberFormatException nfe) 
-        {
+        } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
