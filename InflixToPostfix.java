@@ -1,5 +1,3 @@
-package DATASTRUCsubject;
-
 import java.util.*;
 
 public class InflixToPostfix { 
@@ -69,27 +67,33 @@ public class InflixToPostfix {
     }
 
     private static String evaluatePostfix(String postfix) {
+       
         Stack<String> values = new Stack<>();
         String[] exp = postfix.split(" ");
-
-        for (String token : exp) {
-
-            if (!isNumeric(token)) {
-                break;
-            }
+        int count = 0;
+        System.out.println(postfix);
+        for (String token : exp) { 
+            //System.out.println(token);
+            
             if (isNumeric(token)) {
                 values.push(token);
+                count += 2;
+                
             } else {
+                count += 2;
                 values.push(token);
-                System.out.println(values);
+                //System.out.println(values);
                 String operator = values.pop();
                 String num2 = values.pop();
                 String num1 = values.pop();
                 String result = performOperator(num1, num2, operator);
                 values.push(result);
+                System.out.printf("%s%s\n", result, postfix.substring(count, postfix.length()));
+                //System.out.println(count);
             }
+            
         }
-
+   
         return values.pop();
     }
 
@@ -141,4 +145,3 @@ public class InflixToPostfix {
         }
     }
 }
-
