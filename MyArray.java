@@ -31,9 +31,6 @@ public class MyArray {
       }
     } while (isValid);
     
-    
-    
-
     int option = 0;
     do {
         try {
