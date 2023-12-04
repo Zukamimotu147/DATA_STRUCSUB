@@ -71,6 +71,7 @@ public class InflixToPostfix {
         Stack<String> values = new Stack<>();
         String[] exp = postfix.split(" ");
         int count = 0;
+        System.out.println("\nEvaluation:");
         System.out.println(postfix);
         for (String token : exp) { 
             //System.out.println(token);
@@ -78,7 +79,6 @@ public class InflixToPostfix {
             if (isNumeric(token)) {
                 values.push(token);
                 count += 2;
-                
             } else {
                 count += 2;
                 values.push(token);
@@ -88,7 +88,7 @@ public class InflixToPostfix {
                 String num1 = values.pop();
                 String result = performOperator(num1, num2, operator);
                 values.push(result);
-                System.out.printf("%s%s\n", result, postfix.substring(count, postfix.length()));
+                System.out.printf("%s%s\n", result, postfix.substring(count - 1, postfix.length()));
                 //System.out.println(count);
             }
             
@@ -135,7 +135,7 @@ public class InflixToPostfix {
             case "+":
                 return Double.toString(num1 + num2);
             case "-":
-                return Double.toString(num1 + num2);
+                return Double.toString(num1 - num2);
             case "*":
                 return Double.toString(num1 * num2);
             case "/":
