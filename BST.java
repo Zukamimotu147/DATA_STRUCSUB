@@ -96,15 +96,6 @@ class BinaryTree {
         return isPresent;
     }
 
-    public void displayTree(Node node) {
-        if (node != null) {
-            String s = Integer.toString(node.data);
-            for (int i = 0; i < s.length(); i++) {
-               System.out.print(node.data + " "); 
-            }
-        }
-    }
-
     public void inorder(Node node) {
         if (node == null) {
         return;
