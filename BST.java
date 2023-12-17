@@ -172,7 +172,7 @@ public class BST {
                     }
                     break;
                 case 4:
-                    System.out.println("\n[1] InOrder Traversal\n[2] PostOrder Traversal\n[3] PreOrder Traversal\n[4] Back");
+                    System.out.println("\n[1] InOrder Traversal\n[2] PreOrder Traversal\n[3] PostOrder Traversal\n[4] Back");
                     System.out.print("Option: ");
                     option = scan.nextInt();
 
