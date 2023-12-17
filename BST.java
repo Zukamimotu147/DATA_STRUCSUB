@@ -32,34 +32,58 @@ class BinaryTree {
     }
 
     public Node delete (Node node, int val) {
-        if (node == null) {
-            return null;
+        if(node == null) {
+            return node;
         }
-
-        if (val < node.data) {
-            node.left = delete (node.left, val);
-        } else if (val > node.data) {
-            node.right = delete (node.right, val);
+        
+        if(val < node.data) {
+            node.left = delete(node.left, val);
+        } else if(val > node.data) {
+            node.right = delete(node.right, val);
         } else {
-            if (node.left == null || node.right == null) {
-                Node temp = null;
-                temp = node.left == null ? node.right : node.left;
-                
-                if (temp == null) {
+            if(node.left == null || node.right == null) {
+                Node temp = node.left != null ? node.left : node.right;
+
+                if(temp == null) {
                     return null;
                 } else {
-                    return node;
+                    return temp;
                 }
             } else {
                 Node successor = getSuccessor(node);
                 node.data = successor.data;
-
+                
                 node.right = delete(node.right, successor.data);
                 return node;
             }
         }
+        
         return node;
     }
+
+    // public Node delete(Node node, int val) {
+    //     if (node == null) {
+    //         return null;
+    //     }
+
+    //     if (val < node.data) {
+    //         node.left = delete(node.left, val);
+    //     } else if (val > node.data) {
+    //         node.right = delete(node.right, val);
+    //     } else {
+    //         if (node.left == null) {
+    //             return node.right;
+    //         } else if (node.right == null) {
+    //             return node.left;
+    //         }
+
+    //         Node successor = getSuccessor(node);
+    //         node.data = successor.data;
+    //         node.right = delete(node.right, successor.data);
+    //     }
+    //     return node;
+    // }
+
 
     public Node getSuccessor (Node node) {
         if (node == null) {
